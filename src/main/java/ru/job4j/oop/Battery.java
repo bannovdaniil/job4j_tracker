@@ -12,11 +12,7 @@ public class Battery {
     }
 
     public void exchange(Battery another) {
-        another.setLoad(this.getLoad() + another.getLoad());
-        this.setLoad(0);
-    }
-
-    public void setLoad(int load) {
-        this.load = load;
+        another.load += this.load;
+        this.load = 0;
     }
 }
