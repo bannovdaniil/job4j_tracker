@@ -12,7 +12,7 @@ public class Triangle {
     }
 
     public double semiPerimeter(double ab, double ac, double bc) {
-        return ab + ac + bc;
+        return (ab + ac + bc) / 2;
     }
 
     public boolean exist(double ab, double ac, double bc) {
