@@ -1,14 +1,9 @@
 package ru.job4j.oop;
 
 public class Error {
-    boolean active;
-    int status;
-    String message;
-
-    public void printError() {
-        System.out.println("Active: " + this.active + " Status: "
-                + this.status + " Message: " + this.message);
-    }
+    private boolean active;
+    private int status;
+    private String message;
 
     public Error() {
     }
@@ -17,6 +12,11 @@ public class Error {
         this.active = active;
         this.status = status;
         this.message = message;
+    }
+
+    public void printError() {
+        System.out.println("Active: " + this.active + " Status: "
+                + this.status + " Message: " + this.message);
     }
 
     public static void main(String[] args) {
