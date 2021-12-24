@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class ShopDropTest {
+
     @Test
     public void whenDropFirst() {
         Product[] products = new Product[2];
