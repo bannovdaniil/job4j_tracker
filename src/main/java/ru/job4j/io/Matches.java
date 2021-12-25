@@ -4,40 +4,39 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Matches {
-    private static Scanner input = new Scanner(System.in);
-    private static boolean turn = true;
-    private static int count = 11;
 
     public static void main(String[] args) {
-        System.out.println("Игра 11.");
+        Scanner input = new Scanner(System.in);
+        boolean turn = true;
+        int count = 51;
+        System.out.println("Игра 51.");
         while (count > 0) {
             String player = turn ? "Первый игрок" : "Второй игрок";
             System.out.println(player + " введите число от 1 до 3:");
             int matches = Integer.parseInt(input.nextLine());
             if (check(matches, count)) {
-                continue;
-            }
-            turn = !turn;
-            count -= matches;
-            sayCount(count);
-            if (count > 0) {
-                count = turnComputer(count);
                 turn = !turn;
+                count -= matches;
+                sayCount(count);
+                if (count > 0) {
+                    count = turnComputer(count);
+                    turn = !turn;
+                }
             }
         }
         sayWin(turn);
     }
 
     private static boolean check(int matches, int count) {
+        boolean result = false;
         if (matches > count) {
             System.out.println("Нет такого количества спичек, повторите ввод...");
-            return true;
-        }
-        if (matches < 1 || matches > 3) {
+        } else if (matches < 1 || matches > 3) {
             System.out.println("Ошибка ввода, повторите ввод...");
-            return true;
+        } else {
+            result = true;
         }
-        return false;
+        return result;
     }
 
     private static void sayWin(boolean turn) {
@@ -59,7 +58,7 @@ public class Matches {
         System.out.println("Компьютер взял " + num + sayRight(num));
         sayCount(count);
         if (count > 0) {
-            System.out.println("\nВаш ход...");
+            System.out.println(System.lineSeparator() + "Ваш ход...");
         }
         return count;
     }
@@ -70,9 +69,10 @@ public class Matches {
 
     private static String sayRight(int x) {
         String s = " спички.";
-        if (x == 1) {
+        int lastNum = x % 10;
+        if (lastNum == 1 && (x < 10 || x > 20)) {
             s = " спичка.";
-        } else if (x == 0 || x >= 5) {
+        } else if ((lastNum == 0 || lastNum >= 5) || (x >= 10 && x <= 20)) {
             s = " спичек.";
         }
         return s;
