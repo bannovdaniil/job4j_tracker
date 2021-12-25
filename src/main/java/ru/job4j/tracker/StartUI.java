@@ -49,7 +49,7 @@ public class StartUI {
         }
     }
 
-    private static void deleteItem(Input input, Tracker tracker) {
+    public static void deleteItem(Input input, Tracker tracker) {
         System.out.println("=== Delete item ===");
         int id = Integer.parseInt(input.askStr("Enter id: "));
         if (tracker.delete(id)) {
@@ -59,7 +59,7 @@ public class StartUI {
         }
     }
 
-    private static void editItem(Input input, Tracker tracker) {
+    public static void editItem(Input input, Tracker tracker) {
         System.out.println("=== Edit item ===");
         int id = Integer.parseInt(input.askStr("Enter id: "));
         String name = input.askStr("Enter name: ");
