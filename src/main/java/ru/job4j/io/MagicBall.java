@@ -6,14 +6,14 @@ import java.util.Scanner;
 public class MagicBall {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
+        String question = "";
+        while (question.indexOf('?') < 0) {
             System.out.println("Я великий Оракул. Что ты хочешь узнать? ");
             System.out.print(">");
-            String question = scanner.nextLine();
-            if (question.indexOf('?') >= 0) {
-                break;
+            question = scanner.nextLine();
+            if (question.indexOf('?') < 0) {
+                System.out.println("Вопрос \"?\" не обнаружен, попробуй еще раз!");
             }
-            System.out.println("Вопрос \"?\" не обнаружен, попробуй еще раз!");
         }
         int answer = new Random().nextInt(3);
         if (answer == 0) {
