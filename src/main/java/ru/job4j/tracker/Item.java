@@ -45,6 +45,10 @@ public class Item {
         return created;
     }
 
+    public DateTimeFormatter getDateTimeFormatter() {
+        return FORMATTER;
+    }
+
     @Override
     public String toString() {
         return "Item{" + "id=" + id + ", name='" + name
