@@ -48,7 +48,7 @@ public class StartUITest {
         Item item = tracker.add(new Item("Replaced item"));
         String replacedName = "New item name";
         Input in = new StubInput(
-                new String[]{"0", "1", replacedName, "1"}
+                new String[]{"0", String.valueOf(item.getId()), replacedName, "1"}
         );
         UserAction[] actions = {
                 new EditItemAction(out),
@@ -64,7 +64,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("Deleted item"));
         Input in = new StubInput(
-                new String[]{"0", "1", "1"}
+                new String[]{"0", String.valueOf(item.getId()), "1"}
         );
         UserAction[] actions = {
                 new DeleteItemAction(out),
@@ -122,14 +122,8 @@ public class StartUITest {
                         + "0. Show all items" + ln
                         + "1. Exit Program" + ln
                         + "=== Show all items ===" + ln
-                        + "Item{id=" + one.getId()
-                        + ", name='" + one.getName()
-                        + "', created=" + one.getCreated().format(one.getDateTimeFormatter())
-                        + "}" + ln
-                        + "Item{id=" + two.getId()
-                        + ", name='" + two.getName()
-                        + "', created=" + two.getCreated().format(two.getDateTimeFormatter())
-                        + "}" + ln
+                        + one + ln
+                        + two + ln
                         + "Menu:" + ln
                         + "0. Show all items" + ln
                         + "1. Exit Program" + ln
@@ -143,7 +137,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item one = tracker.add(new Item("What is that mean?"));
         Input in = new StubInput(
-                new String[]{"0", "1", "1"}
+                new String[]{"0", String.valueOf(one.getId()), "1"}
         );
         UserAction[] actions = new UserAction[]{
                 new FindItemByIdAction(out),
@@ -156,10 +150,7 @@ public class StartUITest {
                         + "0. Find item by id" + ln
                         + "1. Exit Program" + ln
                         + "=== Find item by id ===" + ln
-                        + "Item{id=" + one.getId()
-                        + ", name='" + one.getName()
-                        + "', created=" + one.getCreated().format(one.getDateTimeFormatter())
-                        + "}" + ln
+                        + one + ln
                         + "Menu:" + ln
                         + "0. Find item by id" + ln
                         + "1. Exit Program" + ln
@@ -186,10 +177,7 @@ public class StartUITest {
                         + "0. Find items by name" + ln
                         + "1. Exit Program" + ln
                         + "=== Find items by name ===" + ln
-                        + "Item{id=" + one.getId()
-                        + ", name='" + one.getName()
-                        + "', created=" + one.getCreated().format(one.getDateTimeFormatter())
-                        + "}" + ln
+                        + one + ln
                         + "Menu:" + ln
                         + "0. Find items by name" + ln
                         + "1. Exit Program" + ln
