@@ -32,11 +32,13 @@ public class ValidateInputTest {
     public void whenAlotValidInput() {
         Output out = new StubOutput();
         Input in = new StubInput(
-                new String[]{"1", "2", "3", "4", "5"}
+                new String[]{"1", "2", "3"}
         );
         ValidateInput input = new ValidateInput(out, in);
         int selected = input.askInt("Enter menu:");
-        assertThat(selected, is(1));
+        selected += 10 * input.askInt("Enter menu:");
+        selected += 100 * input.askInt("Enter menu:");
+        assertThat(selected, is(321));
     }
 
     @Test
