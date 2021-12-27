@@ -1,42 +1,42 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Tracker {
-    private final Item[] items = new Item[100];
+    private final ArrayList<Item> items = new ArrayList<>();
     private int ids = 1;
     private int size = 0;
 
     public Item add(Item item) {
         item.setId(ids++);
-        items[size++] = item;
+        items.add(item);
         return item;
     }
 
-    public Item[] findByName(String key) {
-        Item[] temp = new Item[size];
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> temp = new ArrayList<>();
         int count = 0;
-        for (int i = 0; i < this.size; i++) {
-            if (key.equals(items[i].getName())) {
-                temp[count++] = items[i];
+        for (Item item : items) {
+            if (key.equals(item.getName())) {
+                temp.add(item);
             }
         }
-        return Arrays.copyOf(temp, count);
+        return temp;
     }
 
-    public Item[] findAll() {
-        return Arrays.copyOf(this.items, this.size);
+    public ArrayList<Item> findAll() {
+        return items;
     }
 
     public Item findById(int id) {
         int index = indexOf(id);
-        return index != -1 ? items[index] : null;
+        return index != -1 ? items.get(index) : null;
     }
 
     private int indexOf(int id) {
         int rsl = -1;
-        for (int index = 0; index < this.size; index++) {
-            if (this.items[index].getId() == id) {
+        for (int index = 0; index < items.size(); index++) {
+            if (this.items.get(index).getId() == id) {
                 rsl = index;
                 break;
             }
@@ -49,7 +49,7 @@ public class Tracker {
         boolean rsl = idx != -1;
         if (rsl) {
             item.setId(id);
-            items[idx] = item;
+            items.set(idx, item);
         }
         return rsl;
     }
@@ -58,8 +58,7 @@ public class Tracker {
         int idx = indexOf(id);
         boolean rsl = idx != -1;
         if (rsl) {
-            System.arraycopy(this.items, idx + 1, this.items, idx, this.size - 1 - idx);
-            items[size - 1] = null;
+            items.remove(idx);
             size--;
         }
         return rsl;
