@@ -48,7 +48,6 @@ public class JobSorterTest {
         assertThat(rsl, lessThan(0));
     }
 
-    ///
     @Test
     public void whenDescCompatorByNameAndPrority() {
         Comparator<Job> cmpNamePriority = new JobDescByName().thenComparing(new JobDescByPriority());
