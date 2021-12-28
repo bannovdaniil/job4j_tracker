@@ -10,7 +10,7 @@ public class PhoneDictionary {
     }
 
     private boolean checkKey(String in, String key) {
-        return in.toLowerCase().contains(key.toLowerCase());
+        return in.contains(key);
     }
 
     public ArrayList<Person> find(String key) {
