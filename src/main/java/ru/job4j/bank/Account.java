@@ -2,10 +2,20 @@ package ru.job4j.bank;
 
 import java.util.Objects;
 
+/**
+ *  Банковский счет.
+ *  - реквизиты
+ *  - баланс
+ * @version 1.0
+ */
 public class Account {
     private String requisite;
     private double balance;
 
+    /**
+     * @param requisite - реквизиты счета
+     * @param balance - баланс счета
+     */
     public Account(String requisite, double balance) {
         this.requisite = requisite;
         this.balance = balance;
