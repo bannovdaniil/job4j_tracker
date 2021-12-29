@@ -20,7 +20,7 @@ public class BankService {
      * @param user - Клиент @see {@link User}
      */
     public void addUser(User user) {
-        users.putIfAbsent(user, new ArrayList<Account>());
+        users.putIfAbsent(user, new ArrayList<>());
     }
 
     /**
@@ -30,7 +30,7 @@ public class BankService {
      * происходят без использования put
      *
      * @param passport - номер паспорта клиента
-     * @param account - номер счета клиента
+     * @param account  - номер счета клиента
      */
     public void addAccount(String passport, Account account) {
         User user = findByPassport(passport);
@@ -46,7 +46,7 @@ public class BankService {
      * поиск клиента по номеру паспорта
      *
      * @param passport - номер паспорта клиента
-     * @return @see {@link User}
+     * @return {@link User}
      */
     public User findByPassport(String passport) {
         for (User user : users.keySet()) {
@@ -62,9 +62,9 @@ public class BankService {
      * 1. проверяем данный человек клиент банка
      * 2. Находим его счёта.
      *
-     * @param passport - номер паспорта клиента
+     * @param passport  - номер паспорта клиента
      * @param requisite - номер счета клиента
-     * @ @return @see {@link Account}
+     * @return {@link Account}
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
