@@ -13,11 +13,8 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User o) {
-        int compare = this.name.compareTo(o.getName());
-        if (compare == 0) {
-            return Integer.compare(this.age, o.getAge());
-        }
-        return compare;
+        int compare = name.compareTo(o.name);
+        return compare == 0 ? Integer.compare(age, o.age) : compare;
     }
 
     @Override
@@ -38,19 +35,4 @@ public class User implements Comparable<User> {
         return Objects.hash(name, age);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }
