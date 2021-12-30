@@ -10,15 +10,13 @@ public class PhoneDictionary {
         this.persons.add(person);
     }
 
-    private boolean checkKey(String in, String key) {
-        return in.contains(key);
-    }
-
     public ArrayList<Person> find(String key) {
-        Predicate<Person> combine = (person) -> (checkKey(person.getAddress(), key)
-                || checkKey(person.getName(), key)
-                || checkKey(person.getPhone(), key)
-                || checkKey(person.getSurname(), key));
+        Predicate<String> equalKey = s -> s.contains(key);
+        Predicate<Person> combine = (person) ->  equalKey.test(person.getAddress())
+                    || equalKey.test(person.getName())
+                    || equalKey.test(person.getPhone())
+                    || equalKey.test(person.getSurname());
+
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : persons) {
             if (combine.test(person)) {
