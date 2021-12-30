@@ -16,8 +16,9 @@ import java.util.stream.Stream;
 public class FilterNegativeNumbers {
 
     public static void main(String[] args) {
-        List<Integer> numbers = Stream.generate(
-                () -> 6 - new Random().nextInt(10)).limit(10).toList();
+        List<Integer> numbers = Stream
+                .generate(() -> 6 - new Random().nextInt(10))
+                .limit(10).toList();
         System.out.println("In:");
         numbers.forEach((n) -> System.out.print(n + ", "));
         System.out.println("\nOut:");
