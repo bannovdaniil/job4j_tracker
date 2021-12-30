@@ -3,6 +3,10 @@ package ru.job4j.search;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+/**
+ * то что было до извращений с or
+ * Predicate<String> equalKey = s -> s.contains(key);
+ */
 public class PhoneDictionary {
     private ArrayList<Person> persons = new ArrayList<>();
 
@@ -11,12 +15,12 @@ public class PhoneDictionary {
     }
 
     public ArrayList<Person> find(String key) {
-        Predicate<String> equalKey = s -> s.contains(key);
-        Predicate<Person> combine = (person) ->  equalKey.test(person.getAddress())
-                    || equalKey.test(person.getName())
-                    || equalKey.test(person.getPhone())
-                    || equalKey.test(person.getSurname());
-
+        Predicate<Person> address = s -> s.getAddress().contains(key);
+        Predicate<Person> name = s -> s.getName().contains(key);
+        Predicate<Person> phone = s -> s.getPhone().contains(key);
+        Predicate<Person> surname = s -> s.getSurname().contains(key);
+        Predicate<Person> combine = (person) ->
+                address.or(name.or(phone.or(surname))).test(person);
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : persons) {
             if (combine.test(person)) {
