@@ -1,9 +1,10 @@
 package ru.job4j.search;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class PhoneDictionary {
-    private ArrayList<Person> persons = new ArrayList<Person>();
+    private ArrayList<Person> persons = new ArrayList<>();
 
     public void add(Person person) {
         this.persons.add(person);
@@ -14,10 +15,13 @@ public class PhoneDictionary {
     }
 
     public ArrayList<Person> find(String key) {
+        Predicate<Person> combine = (person) -> (checkKey(person.getAddress(), key)
+                || checkKey(person.getName(), key)
+                || checkKey(person.getPhone(), key)
+                || checkKey(person.getSurname(), key));
         ArrayList<Person> result = new ArrayList<>();
-        for (Person person : this.persons) {
-            if (checkKey(person.getAddress(), key) || checkKey(person.getName(), key)
-                    || checkKey(person.getPhone(), key) || checkKey(person.getSurname(), key)) {
+        for (Person person : persons) {
+            if (combine.test(person)) {
                 result.add(person);
             }
         }
