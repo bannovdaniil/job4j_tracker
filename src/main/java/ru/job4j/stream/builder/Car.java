@@ -77,5 +77,13 @@ public class Car {
                 .buildColor("Red")
                 .build();
         System.out.println(car);
+        Car car2 = new Builder()
+                .buildBrand("Mercedes")
+                .buildModel("GLK")
+                .buildCreated(LocalDate.of(2021, 6, 1))
+                .buildVolume(2.45)
+                .buildColor("White")
+                .build();
+        System.out.println(car2);
     }
 }
