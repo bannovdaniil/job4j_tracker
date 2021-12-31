@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 /**
  * 1. создается рандомный список от -4 до 5
  * 2. показываем то что получилось на консоль
- * 3. оставляем только <0
+ * 3. оставляем только >0
  * 4. показываем то что осталось
  * toList() vs collect(Collectors.toList()) появилось только в 16+ версии Java
  */
@@ -21,8 +21,8 @@ public class FilterNegativeNumbers {
                 .limit(10).toList();
         System.out.println("In:");
         numbers.forEach((n) -> System.out.print(n + ", "));
-        System.out.println("\nOut:");
-        List<Integer> positive = numbers.stream().filter(n -> n < 0).collect(Collectors.toList());
+        System.out.println(System.lineSeparator() + "Out:");
+        List<Integer> positive = numbers.stream().filter(n -> n > 0).collect(Collectors.toList());
         positive.forEach(System.out::println);
     }
 }
