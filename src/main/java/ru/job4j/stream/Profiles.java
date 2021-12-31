@@ -22,11 +22,9 @@ public class Profiles {
      * @return возращаем адреса без дублей и сорт по улице
      */
     public static List<Address> collectSortWithoutDuplicate(List<Profile> profiles) {
-        Comparator<Address> comporeCity = (a, b) ->
-                a.getCity().compareTo(b.getCity());
         return profiles.stream()
                 .map(Profile::getAddress)
-                .sorted(comporeCity)
+                .sorted(Comparator.comparing(x -> x.getCity()))
                 .distinct()
                 .collect(Collectors.toList());
     }
