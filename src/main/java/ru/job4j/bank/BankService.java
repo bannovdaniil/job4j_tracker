@@ -49,12 +49,11 @@ public class BankService {
      * @return {@link User}
      */
     public User findByPassport(String passport) {
-        for (User user : users.keySet()) {
-            if (passport.equals(user.getPassport())) {
-                return user;
-            }
-        }
-        return null;
+        return users.keySet()
+                .stream()
+                .filter(u -> passport.equals(u.getPassport()))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -70,11 +69,10 @@ public class BankService {
         User user = findByPassport(passport);
         if (user != null) {
             List<Account> accounts = users.get(user);
-            for (Account account : accounts) {
-                if (requisite.equals(account.getRequisite())) {
-                    return account;
-                }
-            }
+            return accounts.stream()
+                    .filter(a -> requisite.equals(a.getRequisite()))
+                    .findFirst()
+                    .orElse(null);
         }
         return null;
     }
@@ -100,7 +98,6 @@ public class BankService {
         boolean rsl = false;
         Account account1 = findByRequisite(srcPassport, srcRequisite);
         Account account2 = findByRequisite(destPassport, destRequisite);
-
         if (account1 != null && account2 != null && account1.getBalance() >= amount) {
             account1.setBalance(account1.getBalance() - amount);
             account2.setBalance(account2.getBalance() + amount);
