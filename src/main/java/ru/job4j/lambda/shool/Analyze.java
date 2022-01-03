@@ -1,6 +1,7 @@
 package ru.job4j.lambda.shool;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class Analyze {
     public static double averageScore(Stream<Pupil> stream) {
         return stream
                 .flatMap(n -> n.getSubjects().stream())
-                .mapToInt(n -> n.getScore())
+                .mapToInt(Subject::getScore)
                 .average()
                 .orElse(0D);
     }
@@ -49,7 +50,7 @@ public class Analyze {
                 .map((a) -> {
                     double score = a.getSubjects()
                             .stream()
-                            .mapToInt(x -> x.getScore())
+                            .mapToInt(Subject::getScore)
                             .average()
                             .orElse(0D);
                     return new Tuple(a.getName(), score);
@@ -84,8 +85,8 @@ public class Analyze {
         return stream
                 .flatMap((n) -> n.getSubjects().stream())
                 .collect(
-                        Collectors.groupingBy(Subject::getName,
-                                Collectors.averagingDouble(a -> a.getScore())))
+                        Collectors.groupingBy(Subject::getName, LinkedHashMap::new,
+                                Collectors.averagingDouble(Subject::getScore)))
                 .entrySet()
                 .stream()
                 .map((n) -> new Tuple(n.getKey(), n.getValue()))
@@ -112,7 +113,7 @@ public class Analyze {
                 .map((a) -> {
                     double score = a.getSubjects()
                             .stream()
-                            .mapToInt(x -> x.getScore())
+                            .mapToInt(Subject::getScore)
                             .sum();
                     return new Tuple(a.getName(), score);
                 })
@@ -139,8 +140,8 @@ public class Analyze {
         return stream
                 .flatMap((n) -> n.getSubjects().stream())
                 .collect(
-                        Collectors.groupingBy(Subject::getName,
-                                Collectors.summingDouble(a -> a.getScore())))
+                        Collectors.groupingBy(Subject::getName, LinkedHashMap::new,
+                                Collectors.summingDouble(Subject::getScore)))
                 .entrySet()
                 .stream()
                 .map((n) -> new Tuple(n.getKey(), n.getValue()))
