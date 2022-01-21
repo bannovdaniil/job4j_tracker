@@ -44,7 +44,7 @@ public class SqlTracker implements Store, AutoCloseable {
                 "INSERT INTO items (name, created) VALUES(?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
-            statement.setTimestamp(2, java.sql.Timestamp.valueOf(item.getCreated()));
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.execute();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -60,24 +60,26 @@ public class SqlTracker implements Store, AutoCloseable {
     /**
      * заменить имя
      *
-      * @param id - номер
+     * @param id   - номер
      * @param item - тут есть новое имя
      * @return - успех?
      */
     @Override
     public boolean replace(int id, Item item) {
-        boolean result = true;
-        try (PreparedStatement statement =
-                     cn.prepareStatement("UPDATE items SET name = ? WHERE id = ?")) {
-            statement.setString(1, item.getName());
-            statement.setInt(2, id);
-            result = statement.execute();
+        boolean result = false;
+        try (PreparedStatement st =
+                     cn.prepareStatement(
+                             "UPDATE items SET name = ?, created = ? WHERE id = ?")) {
+            st.setString(1, item.getName());
+            st.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
+            st.setInt(3, id);
+            result = st.execute();
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
         }
         return result;
     }
+
 
     /**
      * удаление записи
@@ -101,6 +103,7 @@ public class SqlTracker implements Store, AutoCloseable {
 
     /**
      * взять все записи из базы
+     *
      * @return - список всех элементов
      */
     @Override
@@ -110,11 +113,7 @@ public class SqlTracker implements Store, AutoCloseable {
                      cn.prepareStatement("SELECT * FROM items ORDER BY id")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    items.add(getNewItem(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -131,11 +130,7 @@ public class SqlTracker implements Store, AutoCloseable {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    items.add(getNewItem(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -152,17 +147,21 @@ public class SqlTracker implements Store, AutoCloseable {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    item = new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    );
+                    item = getNewItem(resultSet);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return item;
+    }
+
+    private Item getNewItem(ResultSet resultSet) throws SQLException {
+        return new Item(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getTimestamp("created").toLocalDateTime()
+        );
     }
 
 }
