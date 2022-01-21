@@ -89,14 +89,13 @@ public class SqlTracker implements Store, AutoCloseable {
      */
     @Override
     public boolean delete(int id) {
-        boolean result = true;
+        boolean result = false;
         try (PreparedStatement statement =
                      cn.prepareStatement("DELETE FROM items WHERE id = ?")) {
             statement.setInt(1, id);
             result = statement.execute();
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
         }
         return result;
     }
@@ -163,5 +162,4 @@ public class SqlTracker implements Store, AutoCloseable {
                 resultSet.getTimestamp("created").toLocalDateTime()
         );
     }
-
 }
