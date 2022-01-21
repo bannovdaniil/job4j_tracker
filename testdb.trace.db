@@ -48,3 +48,11 @@ The object is already closed [90007-210]
 2022-01-21 23:36:25 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Объект уже закрыт
 The object is already closed [90007-210]
+2022-01-21 23:50:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS items [*]id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP);"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS items [*]id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP);"; SQL statement:
+CREATE TABLE IF NOT EXISTS items id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP); [42000-210]
+2022-01-21 23:50:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS items [*]id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP);"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS items [*]id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP);"; SQL statement:
+CREATE TABLE IF NOT EXISTS items id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP); [42000-210]

@@ -14,6 +14,7 @@ public class SqlTracker implements Store, AutoCloseable {
 
     public SqlTracker(Connection connection) {
         this.cn = connection;
+        createTable();
     }
 
     public void init() {
@@ -29,12 +30,23 @@ public class SqlTracker implements Store, AutoCloseable {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+        createTable();
     }
 
     @Override
     public void close() throws Exception {
         if (cn != null) {
             cn.close();
+        }
+    }
+
+    public void createTable() {
+        try (PreparedStatement statement = cn.prepareStatement(
+                "CREATE TABLE IF NOT EXISTS items "
+                        + "(id SERIAL PRIMARY KEY, name TEXT, created TIMESTAMP);")) {
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -85,7 +97,6 @@ public class SqlTracker implements Store, AutoCloseable {
         }
         return result;
     }
-
 
     /**
      * удаление записи
