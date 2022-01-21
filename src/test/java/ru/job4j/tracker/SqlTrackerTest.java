@@ -71,7 +71,7 @@ public class SqlTrackerTest {
 
     @Test
     public void whenTestFindById() {
-        SqlTracker tracker = new SqlTracker();
+        SqlTracker tracker = new SqlTracker(connection);
         Item bug = new Item("Bug");
         Item item = tracker.add(bug);
         Item result = tracker.findById(item.getId());
@@ -80,7 +80,7 @@ public class SqlTrackerTest {
 
     @Test
     public void whenTestFindAll() {
-        SqlTracker tracker = new SqlTracker();
+        SqlTracker tracker = new SqlTracker(connection);
         int records = tracker.findAll().size();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -92,7 +92,7 @@ public class SqlTrackerTest {
 
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
-        SqlTracker tracker = new SqlTracker();
+        SqlTracker tracker = new SqlTracker(connection);
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
@@ -106,7 +106,7 @@ public class SqlTrackerTest {
 
     @Test
     public void whenDelete() {
-        SqlTracker tracker = new SqlTracker();
+        SqlTracker tracker = new SqlTracker(connection);
         Item bug = new Item();
         bug.setName("Bug");
         tracker.add(bug);
