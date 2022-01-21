@@ -61,12 +61,10 @@ public class SqlTrackerTest {
     @Test
     public void whenReplace() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item bug = new Item();
-        bug.setName("Bug");
+        Item bug = new Item("Bug");
         tracker.add(bug);
         int id = bug.getId();
-        Item bugWithDesc = new Item();
-        bugWithDesc.setName("Bug with description");
+        Item bugWithDesc = new Item("Bug with description");
         tracker.replace(id, bugWithDesc);
         assertThat(tracker.findById(id).getName(), is("Bug with description"));
     }
@@ -74,7 +72,6 @@ public class SqlTrackerTest {
     @Test
     public void whenTestFindById() {
         SqlTracker tracker = new SqlTracker();
-        tracker.init();
         Item bug = new Item("Bug");
         Item item = tracker.add(bug);
         Item result = tracker.findById(item.getId());
@@ -84,7 +81,6 @@ public class SqlTrackerTest {
     @Test
     public void whenTestFindAll() {
         SqlTracker tracker = new SqlTracker();
-        tracker.init();
         int records = tracker.findAll().size();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -97,7 +93,6 @@ public class SqlTrackerTest {
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
         SqlTracker tracker = new SqlTracker();
-        tracker.init();
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
@@ -112,7 +107,6 @@ public class SqlTrackerTest {
     @Test
     public void whenDelete() {
         SqlTracker tracker = new SqlTracker();
-        tracker.init();
         Item bug = new Item();
         bug.setName("Bug");
         tracker.add(bug);
@@ -120,5 +114,4 @@ public class SqlTrackerTest {
         tracker.delete(id);
         assertThat(tracker.findById(id), is(nullValue()));
     }
-
 }
