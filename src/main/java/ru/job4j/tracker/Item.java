@@ -2,10 +2,9 @@ package ru.job4j.tracker;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 
 public class Item {
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now().withNano(0);
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
     private int id;
     private String name;
@@ -58,4 +57,35 @@ public class Item {
                 + "'" + ", created=" + created.format(FORMATTER) + "}";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Item item = (Item) o;
+
+        if (id != item.id) {
+            return false;
+        }
+        if (created != null ? !created.equals(item.created) : item.created != null) {
+            return false;
+        }
+        return name != null ? name.equals(item.name) : item.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = created != null ? created.hashCode() : 0;
+        result = 31 * result + id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
 }
