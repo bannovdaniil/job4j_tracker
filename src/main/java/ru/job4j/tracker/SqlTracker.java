@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class SqlTracker implements Store, AutoCloseable {
     private Connection cn;
-    private final String tableName = "items";
 
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
