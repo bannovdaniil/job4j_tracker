@@ -1,11 +1,13 @@
 package ru.job4j.tracker;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Item {
-    private LocalDateTime created = LocalDateTime.now().withNano(0);
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
+    private LocalDateTime created = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
     private int id;
     private String name;
 
