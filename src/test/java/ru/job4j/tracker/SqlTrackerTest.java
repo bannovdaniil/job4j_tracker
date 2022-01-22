@@ -64,8 +64,9 @@ public class SqlTrackerTest {
         tracker.add(bug);
         int id = bug.getId();
         Item bugWithDesc = new Item("Bug with description");
+        bugWithDesc.setId(id);
         tracker.replace(id, bugWithDesc);
-        assertThat(tracker.findById(id).getName(), is("Bug with description"));
+        assertThat(tracker.findById(id), is(bugWithDesc));
     }
 
     @Test
@@ -73,8 +74,7 @@ public class SqlTrackerTest {
         SqlTracker tracker = new SqlTracker(connection);
         Item bug = new Item("Bug");
         Item item = tracker.add(bug);
-        Item result = tracker.findById(item.getId());
-        assertThat(result.getName(), is(item.getName()));
+        assertThat(tracker.findById(item.getId()), is(bug));
     }
 
     @Test
@@ -85,22 +85,21 @@ public class SqlTrackerTest {
         Item second = new Item("Second");
         tracker.add(first);
         tracker.add(second);
-        Item result = tracker.findAll().get(records);
-        assertThat(result.getName(), is(first.getName()));
+        assertThat(tracker.findAll(), is(List.of(first, second)));
     }
 
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        tracker.add(new Item("First"));
-        tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(second.getName());
-        assertThat(result.get(1).getName(), is(second.getName()));
+        Item first1 = new Item("First");
+        Item first2 = new Item("First");
+        Item second1 = new Item("Second");
+        Item second2 = new Item("Second");
+        tracker.add(first1);
+        tracker.add(second1);
+        tracker.add(second2);
+        tracker.add(first2);
+        assertThat(tracker.findByName(second1.getName()), is(List.of(second1, second2)));
     }
 
     @Test
