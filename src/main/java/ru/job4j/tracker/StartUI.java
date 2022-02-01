@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StartUI {
@@ -32,10 +31,39 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
+        String version = "test";
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
-        try (SqlTracker tracker = new SqlTracker()) {
-            tracker.init();
+        if ("test".equals(version)) {
+            MemTracker tracker = new MemTracker();
+            List<UserAction> actions = List.of(
+                    new CreateAction(output),
+                    new ShowAllItemsAction(output),
+                    new EditItemAction(output),
+                    new DeleteItemAction(output),
+                    new FindItemByIdAction(output),
+                    new FindItemsByNameAction(output),
+                    new ExitAction(output)
+            );
+            for (int i = 0; i < 13000; i++) {
+                for (int j = 0; j < i; j++) {
+                    Item item = new Item();
+                    item.setName(String.valueOf(j));
+                    item.setId(j);
+                    tracker.add(item);
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
+                System.out.println(tracker.findAll().size());
+                for (int j = 0; j < i; j++) {
+                    tracker.delete(j);
+                }
+            }
+        } else if ("mem".equals(version)) {
+            MemTracker tracker = new MemTracker();
             List<UserAction> actions = List.of(
                     new CreateAction(output),
                     new ShowAllItemsAction(output),
@@ -46,8 +74,22 @@ public class StartUI {
                     new ExitAction(output)
             );
             new StartUI(output).init(input, tracker, actions);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else if ("sql".equals(version)) {
+            try (SqlTracker tracker = new SqlTracker()) {
+                tracker.init();
+                List<UserAction> actions = List.of(
+                        new CreateAction(output),
+                        new ShowAllItemsAction(output),
+                        new EditItemAction(output),
+                        new DeleteItemAction(output),
+                        new FindItemByIdAction(output),
+                        new FindItemsByNameAction(output),
+                        new ExitAction(output)
+                );
+                new StartUI(output).init(input, tracker, actions);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
