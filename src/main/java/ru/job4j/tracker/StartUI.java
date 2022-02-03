@@ -43,25 +43,11 @@ public class StartUI {
                     new DeleteItemAction(output),
                     new FindItemByIdAction(output),
                     new FindItemsByNameAction(output),
+                    new AddThousand(output),
+                    new DeleteAll(output),
                     new ExitAction(output)
             );
-            for (int i = 0; i < 13000; i++) {
-                for (int j = 0; j < i; j++) {
-                    Item item = new Item();
-                    item.setName(String.valueOf(j));
-                    item.setId(j);
-                    tracker.add(item);
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception err) {
-                    err.printStackTrace();
-                }
-                System.out.println(tracker.findAll().size());
-                for (int j = 0; j < i; j++) {
-                    tracker.delete(j);
-                }
-            }
+            new StartUI(output).init(input, tracker, actions);
         } else if ("mem".equals(version)) {
             MemTracker tracker = new MemTracker();
             List<UserAction> actions = List.of(
