@@ -1,4 +1,4 @@
-package ru.job4j.lambda.referenceNew;
+package ru.job4j.lambda.referencenew;
 
 public class Model {
     private String name;

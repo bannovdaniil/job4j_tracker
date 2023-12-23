@@ -1,4 +1,4 @@
-package ru.job4j.lambda.referenceNew;
+package ru.job4j.lambda.referencenew;
 
 public class ConstructorRefMain {
     public static void main(String[] args) {
