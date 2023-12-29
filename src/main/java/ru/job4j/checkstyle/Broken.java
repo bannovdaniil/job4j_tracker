@@ -2,7 +2,7 @@ package ru.job4j.checkstyle;
 
 /**
  * по модификаторам доступа тут явно беда, не хватает Getters и Setters.
- * зада стояла, довести все до состояния удовлетворения CheckStyle.
+ * задача стояла, довести все до состояния удовлетворения CheckStyle.
  * 1. Именна переменных преведены в вид обусловленный конвенцией.
  * 2. Переменные находятся в самом начале класса, и отсортированы по уровню доступа.
  * 3. Коструктор перенесен в самый верх.
@@ -11,23 +11,28 @@ package ru.job4j.checkstyle;
  * 6. Убранны двойные пустые строки.
  */
 public class Broken {
-    public static final String NEW_VALUE = "";
-    public String surname;
+    private static final String NEW_VALUE = "";
+    private String name;
+    private String surname;
     private int sizeOfEmpty = 10;
-    String name;
 
-    Broken() {
+    public Broken() {
     }
 
-    void echo() {
+    public Broken(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
 
-    void media(Object obj) {
+    public void echo() {
+    }
+
+    public void media(Object obj) {
         if (obj != null) {
             System.out.println(obj);
         }
     }
 
-    void method(int a, int b, int c, int d, int e, int f, int g) {
+    public void method(int a, int b, int c, int d, int e, int f, int g) {
     }
 }
