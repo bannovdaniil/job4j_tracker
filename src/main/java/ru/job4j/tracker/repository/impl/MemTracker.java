@@ -1,4 +1,7 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.repository.impl;
+
+import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.repository.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,6 @@ public class MemTracker implements Store {
 
     public List<Item> findByName(String key) {
         List<Item> temp = new ArrayList<>();
-        int count = 0;
         for (Item item : items) {
             if (key.equals(item.getName())) {
                 temp.add(item);

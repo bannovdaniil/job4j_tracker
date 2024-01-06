@@ -1,9 +1,15 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.action.impl;
 
-public class AddThousand implements UserAction {
+import ru.job4j.tracker.io.Input;
+import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.io.Output;
+import ru.job4j.tracker.action.UserAction;
+import ru.job4j.tracker.repository.Store;
+
+public class AddThousandAction implements UserAction {
     private final Output out;
 
-    public AddThousand(Output out) {
+    public AddThousandAction(Output out) {
         this.out = out;
     }
 

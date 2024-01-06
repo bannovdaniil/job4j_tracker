@@ -1,5 +1,16 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.action.*;
+import ru.job4j.tracker.action.impl.*;
+import ru.job4j.tracker.io.Input;
+import ru.job4j.tracker.io.Output;
+import ru.job4j.tracker.io.impl.ConsoleInput;
+import ru.job4j.tracker.io.impl.ConsoleOutput;
+import ru.job4j.tracker.io.impl.ValidateInput;
+import ru.job4j.tracker.repository.Store;
+import ru.job4j.tracker.repository.impl.MemTracker;
+import ru.job4j.tracker.repository.impl.SqlTracker;
+
 import java.util.List;
 
 public class StartUI {
@@ -43,8 +54,8 @@ public class StartUI {
                     new DeleteItemAction(output),
                     new FindItemByIdAction(output),
                     new FindItemsByNameAction(output),
-                    new AddThousand(output),
-                    new DeleteAll(output),
+                    new AddThousandAction(output),
+                    new DeleteAllAction(output),
                     new ExitAction(output)
             );
             new StartUI(output).init(input, tracker, actions);

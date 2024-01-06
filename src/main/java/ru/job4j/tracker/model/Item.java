@@ -1,4 +1,4 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

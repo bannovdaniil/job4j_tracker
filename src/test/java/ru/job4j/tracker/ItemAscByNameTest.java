@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.service.ItemAscByName;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +10,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 
 public class ItemAscByNameTest {
     @Test

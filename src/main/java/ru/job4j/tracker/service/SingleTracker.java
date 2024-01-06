@@ -1,4 +1,8 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.service;
+
+import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.repository.Store;
+import ru.job4j.tracker.repository.impl.MemTracker;
 
 import java.util.List;
 
@@ -7,10 +11,9 @@ public final class SingleTracker {
     private static SingleTracker instance = null;
 
     private SingleTracker() {
-
     }
 
-    public SingleTracker getInstace() {
+    public synchronized SingleTracker getInstance() {
         if (instance == null) {
             instance = new SingleTracker();
         }
