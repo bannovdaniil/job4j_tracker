@@ -36,6 +36,11 @@ ru.job4j.tracker
 1. Интерфейс Queue [ru.job4j.queue.store.AppleStore]
 2. Интерфейс Deque [ru.job4j.queue.ReconstructPhrase]
 
+### 1.3.4. Map. HashMap. LinkedHashMap
+
+4. Аттестация [ru.job4j.school.AnalyzeByMap]
+   В этом задании необходимо реализовать класс для подсчета статистики по аттестатам учеников.
+   Для этого используем лямбда выражения.
 
 ### 1.3.5. Сортировка
 
