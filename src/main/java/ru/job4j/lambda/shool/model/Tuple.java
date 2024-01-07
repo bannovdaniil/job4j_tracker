@@ -1,4 +1,4 @@
-package ru.job4j.lambda.shool;
+package ru.job4j.lambda.shool.model;
 
 import java.util.Objects;
 

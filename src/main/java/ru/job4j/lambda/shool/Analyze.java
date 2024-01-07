@@ -1,9 +1,12 @@
 package ru.job4j.lambda.shool;
 
+import ru.job4j.lambda.shool.model.Pupil;
+import ru.job4j.lambda.shool.model.Subject;
+import ru.job4j.lambda.shool.model.Tuple;
+
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

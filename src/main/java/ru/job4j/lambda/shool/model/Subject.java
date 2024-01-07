@@ -1,4 +1,4 @@
-package ru.job4j.lambda.shool;
+package ru.job4j.lambda.shool.model;
 
 /**
  * Класс Subject описывает школьный предмет и аттестационный балл ученика.
