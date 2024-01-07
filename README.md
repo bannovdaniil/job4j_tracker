@@ -33,8 +33,9 @@ ru.job4j.tracker
 
 ### 1.3.3. Queue, Deque
 
-1. Интерфейс Queue [#504942]
-   
+1. Интерфейс Queue [ru.job4j.queue.store.AppleStore]
+2. Интерфейс Deque [ru.job4j.queue.ReconstructPhrase]
+
 
 ### 1.3.5. Сортировка
 
