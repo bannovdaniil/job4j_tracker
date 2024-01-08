@@ -4,10 +4,10 @@ import ru.job4j.school.model.Label;
 import ru.job4j.school.model.Pupil;
 import ru.job4j.school.model.Subject;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * В этом задании необходимо реализовать класс для подсчета статистики по аттестатам учеников.
@@ -20,10 +20,16 @@ public class AnalyzeByMap {
      * @return - средний балл.
      */
     public static double averageScore(List<Pupil> pupils) {
-        return pupils.stream()
-                .flatMap(pupil -> pupil.subjects().stream())
-                .mapToInt(Subject::score)
-                .average().orElse(0.0d);
+        double score = 0.0d;
+        int count = 0;
+
+        for (Pupil pupil : pupils) {
+            count += pupil.subjects().size();
+            for (Subject subject : pupil.subjects()) {
+                score += subject.score();
+            }
+        }
+        return score / count;
     }
 
     /**
@@ -35,14 +41,17 @@ public class AnalyzeByMap {
      * @return -  список из объекта Label (имя ученика и средний балл)
      */
     public static List<Label> averageScoreByPupil(List<Pupil> pupils) {
-        return pupils.stream()
-                .map(pupil -> {
-                            double score = pupil.subjects().stream()
-                                    .mapToInt(Subject::score)
-                                    .average().orElse(0.0d);
-                            return new Label(pupil.name(), score);
-                        }
-                ).toList();
+        List<Label> labels = new ArrayList<>();
+
+        for (Pupil pupil : pupils) {
+            double score = 0.0d;
+            for (Subject subject : pupil.subjects()) {
+                score += subject.score();
+            }
+            labels.add(new Label(pupil.name(), score / pupil.subjects().size()));
+        }
+
+        return labels;
     }
 
     /**
@@ -54,15 +63,20 @@ public class AnalyzeByMap {
      * @return - список из объектов Label (название предмета и средний балл).
      */
     public static List<Label> averageScoreBySubject(List<Pupil> pupils) {
-        return pupils.stream()
-                .flatMap(pupil -> pupil.subjects().stream())
-                .collect(
-                        Collectors.groupingBy(Subject::name, LinkedHashMap::new,
-                                Collectors.averagingDouble(Subject::score)))
-                .entrySet()
-                .stream()
-                .map(subjects -> new Label(subjects.getKey(), subjects.getValue()))
-                .toList();
+        Map<String, Long> subjects = new HashMap<>();
+        List<Label> labels = new ArrayList<>();
+
+        for (Pupil pupil : pupils) {
+            for (Subject subject : pupil.subjects()) {
+                long score = subjects.getOrDefault(subject.name(), 0L);
+                subjects.put(subject.name(), score + subject.score());
+            }
+        }
+        for (Map.Entry<String, Long> subject : subjects.entrySet()) {
+            labels.add(new Label(subject.getKey(), (double) subject.getValue() / pupils.size()));
+        }
+
+        return labels;
     }
 
     /**
@@ -73,16 +87,20 @@ public class AnalyzeByMap {
      * @return - Label (имя ученика и суммарный балл).
      */
     public static Label bestStudent(List<Pupil> pupils) {
-        return pupils.stream()
-                .map(pupil -> {
-                    double score = pupil.subjects()
-                            .stream()
-                            .mapToInt(Subject::score)
-                            .sum();
-                    return new Label(pupil.name(), score);
-                })
-                .max(Comparator.comparing(Label::score))
-                .orElse(null);
+        Label bestPupil = null;
+
+        for (Pupil pupil : pupils) {
+            int score = 0;
+            for (Subject subject : pupil.subjects()) {
+                score += subject.score();
+            }
+
+            if (bestPupil == null || bestPupil.score() < score) {
+                bestPupil = new Label(pupil.name(), score);
+            }
+        }
+
+        return bestPupil;
     }
 
     /**
@@ -93,15 +111,22 @@ public class AnalyzeByMap {
      * @return - Label (имя предмета, сумма баллов каждого ученика по этому предмету).
      */
     public static Label bestSubject(List<Pupil> pupils) {
-        return pupils.stream()
-                .flatMap(pupil -> pupil.subjects().stream())
-                .collect(
-                        Collectors.groupingBy(Subject::name,
-                                Collectors.summingDouble(Subject::score)))
-                .entrySet()
-                .stream()
-                .map(subjects -> new Label(subjects.getKey(), subjects.getValue()))
-                .max(Comparator.comparing(Label::score))
-                .orElse(null);
+        Map<String, Long> subjects = new HashMap<>();
+        Label bestSubject = null;
+
+        for (Pupil pupil : pupils) {
+            for (Subject subject : pupil.subjects()) {
+                long score = subjects.getOrDefault(subject.name(), 0L);
+                subjects.put(subject.name(), score + subject.score());
+            }
+        }
+
+        for (Map.Entry<String, Long> subject : subjects.entrySet()) {
+            if (bestSubject == null || bestSubject.score() < subject.getValue()) {
+                bestSubject = new Label(subject.getKey(), subject.getValue());
+            }
+        }
+
+        return bestSubject;
     }
 }
