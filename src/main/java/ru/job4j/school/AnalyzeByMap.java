@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * В этом задании необходимо реализовать класс для подсчета статистики по аттестатам учеников.
+ * - Дополнительное задание, в методах averageScoreBySubject и bestSubject для реализации
+ * необходимо было сформировать промежуточную Map. Подходы по ее сбору могут быть разными.
+ * Вашей задачей будет переделать все на использование метода merge();
  */
 public class AnalyzeByMap {
     /**
@@ -68,8 +71,9 @@ public class AnalyzeByMap {
 
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                long score = subjects.getOrDefault(subject.name(), 0L);
-                subjects.put(subject.name(), score + subject.score());
+                subjects.merge(subject.name(),
+                        (long) subject.score(),
+                        (oldValue, newValue) -> oldValue + newValue);
             }
         }
         for (Map.Entry<String, Long> subject : subjects.entrySet()) {
@@ -116,8 +120,9 @@ public class AnalyzeByMap {
 
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                long score = subjects.getOrDefault(subject.name(), 0L);
-                subjects.put(subject.name(), score + subject.score());
+                subjects.merge(subject.name(),
+                        (long) subject.score(),
+                        (oldValue, newValue) -> oldValue + newValue);
             }
         }
 

@@ -63,3 +63,8 @@ ru.job4j.tracker
 5. PriorityQueue [ru.job4j.queue]
    Пример работы с PriorityQueue.
 
+### 1.4.1. Lambda
+
+9. Лямбда выражения и Collection Framework [ru.job4j.school.AnalyzeByMap]
+   В методах averageScoreBySubject и bestSubject для реализации необходимо было сформировать промежуточную Map.
+   Подходы по ее сбору могут быть разными. Вашей задачей будет переделать все на использование метода merge();
