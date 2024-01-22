@@ -21,10 +21,8 @@
         <profile>
             <id>test</id>
             <properties>
-                <db.url>jdbc:h2:${basedir}/testdb;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</db.url>
-                <db.username></db.username>
-                <db.password></db.password>
-                <db.driver>org.h2.Driver</db.driver>
+                <liquibase.property.file>src/test/resources/db/liquibase.properties</liquibase.property.file>
+                <skipLiquibaseRun>true</skipLiquibaseRun>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -32,6 +30,10 @@
         </profile>
         <profile>
             <id>production</id>
+            <properties>
+                <skipLiquibaseRun>false</skipLiquibaseRun>
+                <liquibase.property.file>src/main/resources/db/liquibase.properties</liquibase.property.file>
+            </properties>
         </profile>
     </profiles>
     <!-- зависимости -->
@@ -94,7 +96,8 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
-                    <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
+                    <propertyFile>${liquibase.property.file}</propertyFile>
+                    <skip>${skipLiquibaseRun}</skip>
                 </configuration>
                 <executions>
                     <execution>
