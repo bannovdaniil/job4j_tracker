@@ -13,6 +13,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- versions -->
+        <liquibase.version>4.25.1</liquibase.version>
     </properties>
     <!-- setup H2 base for test-->
     <profiles>
@@ -30,12 +32,6 @@
         </profile>
         <profile>
             <id>production</id>
-            <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
-                <db.username>postgres</db.username>
-                <db.password>password</db.password>
-                <db.driver>org.postgresql.Driver</db.driver>
-            </properties>
         </profile>
     </profiles>
     <!-- зависимости -->
@@ -56,7 +52,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.3.1</version>
+            <version>42.7.1</version>
         </dependency>
         <!-- H2 base for test-->
         <dependency>
@@ -83,6 +79,12 @@
             <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- liquibase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.25.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -90,14 +92,9 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>${liquibase.version}</version>
                 <configuration>
-                    <changeLogFile>${basedir}/db/master.xml</changeLogFile>
-                    <url>${db.url}</url>
-                    <driver>${db.driver}</driver>
-                    <username>${db.username}</username>
-                    <password>${db.password}</password>
-                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
                 </configuration>
                 <executions>
                     <execution>
@@ -121,7 +118,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>
@@ -160,7 +157,7 @@
                     </execution>
                 </executions>
             </plugin>
-<!-- Style -->
+            <!-- Style -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

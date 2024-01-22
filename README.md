@@ -68,3 +68,6 @@ ru.job4j.tracker
 9. Лямбда выражения и Collection Framework [ru.job4j.school.AnalyzeByMap]
    В методах averageScoreBySubject и bestSubject для реализации необходимо было сформировать промежуточную Map.
    Подходы по ее сбору могут быть разными. Вашей задачей будет переделать все на использование метода merge();
+
+### 2.3.6. Liquibase
+1. Liquibase. Установка.
