@@ -8,9 +8,11 @@ import ru.job4j.tracker.io.impl.ConsoleInput;
 import ru.job4j.tracker.io.impl.ConsoleOutput;
 import ru.job4j.tracker.io.impl.ValidateInput;
 import ru.job4j.tracker.repository.Store;
+import ru.job4j.tracker.repository.impl.HbmTracker;
 import ru.job4j.tracker.repository.impl.MemTracker;
 import ru.job4j.tracker.repository.impl.SqlTracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StartUI {
@@ -21,39 +23,12 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
-        String version = "test";
+        String version = "hbm";
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
-        if ("test".equals(version)) {
-            MemTracker tracker = new MemTracker();
-            List<UserAction> actions = List.of(
-                    new CreateAction(output),
-                    new ShowAllItemsAction(output),
-                    new EditItemAction(output),
-                    new DeleteItemAction(output),
-                    new FindItemByIdAction(output),
-                    new FindItemsByNameAction(output),
-                    new AddThousandAction(output),
-                    new DeleteAllAction(output),
-                    new ExitAction(output)
-            );
-            new StartUI(output).init(input, tracker, actions);
-        } else if ("mem".equals(version)) {
-            MemTracker tracker = new MemTracker();
-            List<UserAction> actions = List.of(
-                    new CreateAction(output),
-                    new ShowAllItemsAction(output),
-                    new EditItemAction(output),
-                    new DeleteItemAction(output),
-                    new FindItemByIdAction(output),
-                    new FindItemsByNameAction(output),
-                    new ExitAction(output)
-            );
-            new StartUI(output).init(input, tracker, actions);
-        } else if ("sql".equals(version)) {
-            try (SqlTracker tracker = new SqlTracker()) {
-                tracker.init();
-                List<UserAction> actions = List.of(
+
+        List<UserAction> actions = new ArrayList<>(
+                List.of(
                         new CreateAction(output),
                         new ShowAllItemsAction(output),
                         new EditItemAction(output),
@@ -61,11 +36,42 @@ public class StartUI {
                         new FindItemByIdAction(output),
                         new FindItemsByNameAction(output),
                         new ExitAction(output)
-                );
-                new StartUI(output).init(input, tracker, actions);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                )
+        );
+
+        switch (version) {
+            case "test":
+                MemTracker testMemTracker = new MemTracker();
+                actions.remove(6);
+
+                actions.add(new AddThousandAction(output));
+                actions.add(new DeleteAllAction(output));
+                actions.add(new ExitAction(output));
+
+                new StartUI(output).init(input, testMemTracker, actions);
+                break;
+            case "mem":
+                MemTracker memTracker = new MemTracker();
+                new StartUI(output).init(input, memTracker, actions);
+                break;
+            case "sql":
+                try (SqlTracker sqlTracker = new SqlTracker()) {
+                    sqlTracker.init();
+                    new StartUI(output).init(input, sqlTracker, actions);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "hbm":
+                try (HbmTracker hbmTracker = new HbmTracker()) {
+                    hbmTracker.init();
+                    new StartUI(output).init(input, hbmTracker, actions);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Реализация не определенна.");
         }
     }
 

@@ -54,7 +54,7 @@ public class SqlTracker implements Store, AutoCloseable {
     }
 
     /**
-     * добавить новую запись в таблицу
+     * Добавить новую запись в таблицу
      *
      * @param item - значение
      * @return - саму и вернуть с указанием присвоенного ID
@@ -79,7 +79,7 @@ public class SqlTracker implements Store, AutoCloseable {
     }
 
     /**
-     * заменить имя
+     * Заменить имя
      *
      * @param id   - номер
      * @param item - тут есть новое имя
@@ -89,11 +89,10 @@ public class SqlTracker implements Store, AutoCloseable {
     public boolean replace(int id, Item item) {
         boolean result = false;
         try (PreparedStatement st =
-                     cn.prepareStatement(
-                             "UPDATE items SET name = ?, created = ? WHERE id = ?")) {
+                     cn.prepareStatement("UPDATE items SET name = ? WHERE id = ?")
+        ) {
             st.setString(1, item.getName());
-            st.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
-            st.setInt(3, id);
+            st.setInt(2, id);
             result = st.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +101,7 @@ public class SqlTracker implements Store, AutoCloseable {
     }
 
     /**
-     * удаление записи
+     * Удаление записи
      *
      * @param id - номер
      * @return - успех?
@@ -121,7 +120,7 @@ public class SqlTracker implements Store, AutoCloseable {
     }
 
     /**
-     * взять все записи из базы
+     * Взять все записи из базы
      *
      * @return - список всех элементов
      */
