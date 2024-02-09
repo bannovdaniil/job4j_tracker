@@ -6,7 +6,8 @@ public class Student {
     private int score;
     private String surname;
 
-    public void setSurname(String surname) {
+    public Student(String surname, int score) {
+        this.score = score;
         this.surname = surname;
     }
 
@@ -18,8 +19,7 @@ public class Student {
         return surname;
     }
 
-    public Student(String surname, int score) {
-        this.score = score;
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 

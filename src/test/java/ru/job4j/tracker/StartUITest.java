@@ -1,7 +1,7 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
-import ru.job4j.tracker.action.*;
+import ru.job4j.tracker.action.UserAction;
 import ru.job4j.tracker.action.impl.*;
 import ru.job4j.tracker.io.Input;
 import ru.job4j.tracker.io.Output;

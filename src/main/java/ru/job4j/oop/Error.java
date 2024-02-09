@@ -14,11 +14,6 @@ public class Error {
         this.message = message;
     }
 
-    public void printError() {
-        System.out.println("Active: " + this.active + " Status: "
-                + this.status + " Message: " + this.message);
-    }
-
     public static void main(String[] args) {
         Error error1 = new Error();
         Error error2 = new Error(true, 1, "Out of memory");
@@ -26,5 +21,10 @@ public class Error {
         error1.printError();
         error2.printError();
         error3.printError();
+    }
+
+    public void printError() {
+        System.out.println("Active: " + this.active + " Status: "
+                + this.status + " Message: " + this.message);
     }
 }

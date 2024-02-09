@@ -6,6 +6,7 @@ import java.util.Objects;
  * Клиент банка
  * - паспорт
  * - имя
+ *
  * @version 1.0
  */
 public class User {

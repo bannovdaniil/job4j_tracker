@@ -7,8 +7,8 @@ import ru.job4j.tracker.repository.impl.MemTracker;
 import java.util.List;
 
 public final class SingleTracker {
-    private Store tracker = new MemTracker();
     private static SingleTracker instance = null;
+    private Store tracker = new MemTracker();
 
     private SingleTracker() {
     }

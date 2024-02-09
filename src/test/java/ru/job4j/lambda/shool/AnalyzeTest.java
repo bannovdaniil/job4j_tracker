@@ -1,14 +1,14 @@
 package ru.job4j.lambda.shool;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import org.junit.Test;
 import ru.job4j.lambda.shool.model.Pupil;
 import ru.job4j.lambda.shool.model.Subject;
 import ru.job4j.lambda.shool.model.Tuple;
 
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 public class AnalyzeTest {
 

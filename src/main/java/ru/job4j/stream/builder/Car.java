@@ -14,6 +14,25 @@ public class Car {
     private double volume;
     private String color;
 
+    public static void main(String[] args) {
+        Car car = new Builder()
+                .buildBrand("Toyota")
+                .buildModel("Camry")
+                .buildCreated(LocalDate.of(2021, 6, 1))
+                .buildVolume(2.5)
+                .buildColor("Red")
+                .build();
+        System.out.println(car);
+        Car car2 = new Builder()
+                .buildBrand("Mercedes")
+                .buildModel("GLK")
+                .buildCreated(LocalDate.of(2021, 6, 1))
+                .buildVolume(2.45)
+                .buildColor("White")
+                .build();
+        System.out.println(car2);
+    }
+
     @Override
     public String toString() {
         return "Car{"
@@ -66,24 +85,5 @@ public class Car {
             car.color = this.color;
             return car;
         }
-    }
-
-    public static void main(String[] args) {
-        Car car = new Builder()
-                .buildBrand("Toyota")
-                .buildModel("Camry")
-                .buildCreated(LocalDate.of(2021, 6, 1))
-                .buildVolume(2.5)
-                .buildColor("Red")
-                .build();
-        System.out.println(car);
-        Car car2 = new Builder()
-                .buildBrand("Mercedes")
-                .buildModel("GLK")
-                .buildCreated(LocalDate.of(2021, 6, 1))
-                .buildVolume(2.45)
-                .buildColor("White")
-                .build();
-        System.out.println(car2);
     }
 }

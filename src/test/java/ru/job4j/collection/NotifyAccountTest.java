@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 public class NotifyAccountTest {
 
@@ -35,7 +35,7 @@ public class NotifyAccountTest {
         HashSet<Account> expect = new HashSet<>(
                 Arrays.asList(
                         new Account("123", "Petr Arsentev", "eDer3432f")
-                 )
+                )
         );
         assertThat(NotifyAccount.sent(accounts), is(expect));
     }

@@ -1,6 +1,5 @@
 package ru.job4j.stream;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +19,7 @@ public class Profiles {
      * map() меняет тип стрема в цепочке.
      * елси сначала map() тогда работаем с Address
      * все что до этого работаем с Profile
+     *
      * @param profiles список профилей
      * @return возращаем адреса без дублей и сорт по улице
      */
