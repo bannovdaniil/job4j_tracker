@@ -12,6 +12,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.internal.SessionImpl;
 import org.hibernate.query.Query;
+import ru.job4j.tracker.exception.HibernateRepositoryException;
 import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.repository.Store;
 
@@ -27,8 +28,9 @@ public class HbmTracker implements Store, AutoCloseable {
             .buildMetadata().buildSessionFactory();
 
     public void init() {
-        Session session = sessionFactory.openSession();
-        try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("db/liquibase.properties")) {
+        try (Session session = sessionFactory.openSession();
+             InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("db/liquibase.properties")
+        ) {
             Properties config = new Properties();
             config.load(in);
             Connection connection = ((SessionImpl) session).connection();
@@ -37,9 +39,7 @@ public class HbmTracker implements Store, AutoCloseable {
             liquibase.dropAll();
             liquibase.update();
         } catch (Exception e) {
-            throw new RuntimeException("Can't init Hibernate " + e.getMessage());
-        } finally {
-            session.close();
+            throw new HibernateRepositoryException("Error can't init liquibase for Hibernate: " + e.getMessage());
         }
     }
 
@@ -77,14 +77,15 @@ public class HbmTracker implements Store, AutoCloseable {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            Query<Item> query = session.createQuery("""
-                    UPDATE Item i
-                    SET i.name = :name
-                    WHERE i.id = :itemId
-                    """);
-            query.setParameter("name", item.getName())
+
+            session.createQuery("""
+                            UPDATE Item i
+                            SET i.name = :name
+                            WHERE i.id = :itemId
+                            """).setParameter("name", item.getName())
                     .setParameter("itemId", item.getId())
                     .executeUpdate();
+
             session.getTransaction().commit();
             result = true;
         } catch (Exception e) {
@@ -121,53 +122,61 @@ public class HbmTracker implements Store, AutoCloseable {
 
     /**
      * Взять все записи из базы
-     *
-     * @return - список всех элементов
      */
     @Override
     public List<Item> findAll() {
         Session session = sessionFactory.openSession();
-        Query<Item> query = session.createQuery("FROM Item", Item.class);
-        List<Item> itemList = query.list();
-        session.close();
+        List<Item> itemList = List.of();
+        try {
+            Query<Item> query = session.createQuery("FROM Item", Item.class);
+            itemList = query.list();
+        } catch (Exception e) {
+            throw new HibernateRepositoryException("Error (findAll): " + e.getMessage());
+        } finally {
+            session.close();
+        }
 
         return itemList;
     }
 
     /**
      * Найти по наименованию.
-     *
-     * @param name
-     * @return
      */
     @Override
     public List<Item> findByName(String name) {
         Session session = sessionFactory.openSession();
-        Query<Item> query = session.createQuery("FROM Item i WHERE i.name = :name", Item.class);
-        List<Item> itemList = query.setParameter("name", name).list();
-
-        session.close();
+        List<Item> itemList = List.of();
+        try {
+            Query<Item> query = session.createQuery("FROM Item i WHERE i.name = :name", Item.class);
+            itemList = query.setParameter("name", name).list();
+        } catch (Exception e) {
+            throw new HibernateRepositoryException("Error (findByName): " + e.getMessage());
+        } finally {
+            session.close();
+        }
 
         return itemList;
     }
 
     /**
      * Найти по id
-     *
-     * @param itemId
-     * @return
      */
     @Override
     public Item findById(int itemId) {
         Session session = sessionFactory.openSession();
-        Query<Item> query = session.createQuery("FROM Item i WHERE i.id = :itemId", Item.class);
-        Item item = query
-                .setParameter("itemId", itemId)
-                .getResultList()
-                .stream().findFirst()
-                .orElse(null);
+        Item item;
+        try {
 
-        session.close();
+            Query<Item> query = session.createQuery("FROM Item i WHERE i.id = :itemId", Item.class);
+            item = query
+                    .setParameter("itemId", itemId)
+                    .uniqueResultOptional()
+                    .orElse(null);
+        } catch (Exception e) {
+            throw new HibernateRepositoryException("Error (findById): " + e.getMessage());
+        } finally {
+            session.close();
+        }
 
         return item;
     }
