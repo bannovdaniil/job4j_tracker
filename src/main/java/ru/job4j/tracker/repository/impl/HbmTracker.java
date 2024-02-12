@@ -54,6 +54,7 @@ public class HbmTracker implements Store, AutoCloseable {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
+
             session.persist(item);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -125,15 +126,15 @@ public class HbmTracker implements Store, AutoCloseable {
      */
     @Override
     public List<Item> findAll() {
-        Session session = sessionFactory.openSession();
+
         List<Item> itemList = List.of();
-        try {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
             Query<Item> query = session.createQuery("FROM Item", Item.class);
             itemList = query.list();
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findAll): " + e.getMessage());
-        } finally {
-            session.close();
         }
 
         return itemList;
@@ -144,15 +145,13 @@ public class HbmTracker implements Store, AutoCloseable {
      */
     @Override
     public List<Item> findByName(String name) {
-        Session session = sessionFactory.openSession();
         List<Item> itemList = List.of();
-        try {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
             Query<Item> query = session.createQuery("FROM Item i WHERE i.name = :name", Item.class);
             itemList = query.setParameter("name", name).list();
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findByName): " + e.getMessage());
-        } finally {
-            session.close();
         }
 
         return itemList;
@@ -163,9 +162,9 @@ public class HbmTracker implements Store, AutoCloseable {
      */
     @Override
     public Item findById(int itemId) {
-        Session session = sessionFactory.openSession();
         Item item;
-        try {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
             Query<Item> query = session.createQuery("FROM Item i WHERE i.id = :itemId", Item.class);
             item = query
@@ -174,8 +173,6 @@ public class HbmTracker implements Store, AutoCloseable {
                     .orElse(null);
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findById): " + e.getMessage());
-        } finally {
-            session.close();
         }
 
         return item;
