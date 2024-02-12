@@ -126,13 +126,13 @@ public class HbmTracker implements Store, AutoCloseable {
      */
     @Override
     public List<Item> findAll() {
-
         List<Item> itemList = List.of();
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             Query<Item> query = session.createQuery("FROM Item", Item.class);
             itemList = query.list();
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findAll): " + e.getMessage());
         }
@@ -150,6 +150,7 @@ public class HbmTracker implements Store, AutoCloseable {
             session.beginTransaction();
             Query<Item> query = session.createQuery("FROM Item i WHERE i.name = :name", Item.class);
             itemList = query.setParameter("name", name).list();
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findByName): " + e.getMessage());
         }
@@ -171,6 +172,8 @@ public class HbmTracker implements Store, AutoCloseable {
                     .setParameter("itemId", itemId)
                     .uniqueResultOptional()
                     .orElse(null);
+
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new HibernateRepositoryException("Error (findById): " + e.getMessage());
         }
