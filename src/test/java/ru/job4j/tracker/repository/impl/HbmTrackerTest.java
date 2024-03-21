@@ -33,6 +33,15 @@ class HbmTrackerTest {
     }
 
     @Test
+    void whenAddNewItemThenTrackerHasSameItem() {
+        Item item = new Item();
+        item.setName("test1");
+        tracker.add(item);
+        Item result = tracker.findById(item.getId());
+        assertThat(result.getName()).isEqualTo(item.getName());
+    }
+
+    @Test
     void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
         Item item = new Item("item");
         tracker.add(item);
