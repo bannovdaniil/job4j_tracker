@@ -123,6 +123,7 @@
                     <execution>
                         <phase>process-resources</phase>
                         <goals>
+                            <goal>dropAll</goal>
                             <goal>clearCheckSums</goal>
                             <goal>update</goal>
                         </goals>
@@ -234,6 +235,11 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
